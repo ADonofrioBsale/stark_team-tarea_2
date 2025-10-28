@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Bsale - Registro de Empresa</title>
+
+  <!-- Materia Design CDN -->
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=attach_file" />
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="/styles.css">
+
+  <!-- Material Design JavaScript -->
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js" defer></script>
+  
+  <!-- JavaScript personalizado -->
+  <script src="/scripts.js" defer></script>
+
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <img src="/images/logo-bsale.png" alt="Bsale Logo" class="logo">
+    </header>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Sidebar -->
+      <div class="sidebar-container">
+        <div class="sidebar-header">
+          <p>BARRERA Y GENTINA LIMITADA</p>
+          <p>RUT 23479874-3</p>
+        </div>
+
+        <nav>
+          <ul class="nav-list">
+            <li>
+              <a href="#" class="nav-link active" data-section="datos-empresa">Datos de la empresa</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="representante-legal">Datos del representante legal</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="envio-facturacion">Datos para envío de la facturación</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="implementar-bsale">¿Quién implementará Bsale?</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="info-proceso">Información para tu proceso</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="info-documentos">Información para tus documentos</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="capacitacion">Capacitación</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Form content-->
+      <div class="form-container">
+        <!-- Sección 1 -->
+        <div class="form-section active" id="section-datos-empresa">
+          <h2>Datos de la empresa</h2>
+          <form>
+            <!-- RUT de la empresa -->
+            <div class="form-row">
+              <label for="rut-empresa" class="form-label">RUT de la empresa</label>
+              <div class="form-input">
+                <label class="mdc-text-field mdc-text-field--filled full-width">
+                  <input class="mdc-text-field__input" type="text" id="rut-empresa">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="mdc-text-field-helper-text--persistent">Por ejemplo</div>
+              </div>
+            </div>
+
+            <!-- Razón social -->
+            <div class="form-row">
+              <label for="razon-social" class="form-label">Razón social</label>
+              <div class="form-input">
+                <label class="mdc-text-field mdc-text-field--filled full-width">
+                  <input class="mdc-text-field__input" type="text" id="razon-social">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="mdc-text-field-helper-text--persistent">Por ejemplo</div>
+              </div>
+            </div>
+
+            <!-- Dirección de la empresa -->
+            <div class="form-row">
+              <label for="direccion-empresa" class="form-label">Dirección de la empresa</label>
+              <div class="form-input">
+                <label class="mdc-text-field mdc-text-field--filled full-width">
+                  <input class="mdc-text-field__input" type="text" id="direccion-empresa">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="mdc-text-field-helper-text--persistent">Por ejemplo</div>
+              </div>
+            </div>
+
+            <!-- Comuna -->
+            <div class="form-row">
+              <label for="comuna" class="form-label">Comuna</label>
+              <div class="form-input">
+                <label class="mdc-text-field mdc-text-field--filled full-width">
+                  <input class="mdc-text-field__input" type="text" id="comuna">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="mdc-text-field-helper-text--persistent">Por ejemplo</div>
+              </div>
+            </div>
+
+            <!-- Actividad económica -->
+            <div class="form-row">
+              <label for="actividad-economica" class="form-label">Actividad económica</label>
+              <div class="form-input">
+                <label class="mdc-text-field mdc-text-field--filled full-width">
+                  <input class="mdc-text-field__input" type="text" id="actividad-economica">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                  <div class="mdc-text-field-helper-text--persistent">Por ejemplo</div>
+              </div>
+            </div>
+
+            <!-- Botón Enviar -->
+            <div class="button-container">
+              <button type="submit" class="mdc-button mdc-button--raised button-enviar">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENVIAR</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sección 2 -->
+        <div class="form-section" id="section-representante-legal">
+          <h2>Datos del representante legal</h2>
+          <form>
+            <!-- RUT del representante -->
+            <div class="form-row">
+              <label for="rut-representante" class="form-label">RUT del representante legal</label>
+              <div class="form-input">
+                <label class="mdc-text-field mdc-text-field--filled full-width">
+                  <input class="mdc-text-field__input" type="text" id="rut-representante">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="mdc-text-field-helper-text--persistent">Por ejemplo</div>
+              </div>
+            </div>
+
+            <!-- Nombre del representante -->
+            <div class="form-row">
+              <label for="nombre-representante" class="form-label">Nombre del representante legal</label>
+              <div class="form-input">
+                <label class="mdc-text-field mdc-text-field--filled full-width">
+                  <input class="mdc-text-field__input" type="text" id="nombre-representante">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="mdc-text-field-helper-text--persistent">Por ejemplo</div>
+              </div>
+            </div>
+
+            <!-- Email del representante -->
+            <div class="form-row">
+              <label for="email-representante" class="form-label">Email del representante legal</label>
+              <div class="form-input">
+                <label class="mdc-text-field mdc-text-field--filled full-width">
+                  <input class="mdc-text-field__input" type="email" id="email-representante">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="mdc-text-field-helper-text--persistent">Por ejemplo</div>
+              </div>
+            </div>
+
+            <!-- RUT vigente -->
+            <div class="form-row">
+              <label class="form-label">RUT vigente</label>
+              <div class="form-input">
+                <div class="file-upload-container">
+                  <!-- Parte frontal -->
+                  <div class="file-upload-item">
+                    <button type="button" class="file-upload-button-static">
+                      <span class="material-symbols-outlined">attach_file</span>
+                      <span class="file-upload-text">RUT parte frontal</span>
+                    </button>
+                  </div>
+                  <!-- Parte trasera -->
+                  <div class="file-upload-item">
+                    <button type="button" class="file-upload-button-static">
+                      <span class="material-symbols-outlined">attach_file</span>
+                      <span class="file-upload-text">RUT parte trasera</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Certificado digital -->
+            <div class="form-row">
+              <label class="form-label">¿Tiene certificado digital?</label>
+              <div class="form-input">
+                <div class="radio-group">
+                  <div class="mdc-form-field">
+                    <div class="mdc-radio">
+                      <input class="mdc-radio__native-control" type="radio" id="certificado-digital" name="certificado" value="si">
+                      <div class="mdc-radio__background">
+                        <div class="mdc-radio__outer-circle"></div>
+                        <div class="mdc-radio__inner-circle"></div>
+                      </div>
+                      <div class="mdc-radio__ripple"></div>
+                    </div>
+                    <label for="certificado-digital" class="form-radio-label">Sí</label>
+                  </div>
+                  <div class="mdc-form-field">
+                    <div class="mdc-radio">
+                      <input class="mdc-radio__native-control" type="radio" id="certificado-digital" name="certificado" value="no">
+                      <div class="mdc-radio__background">
+                        <div class="mdc-radio__outer-circle"></div>
+                        <div class="mdc-radio__inner-circle"></div>
+                      </div>
+                      <div class="mdc-radio__ripple"></div>
+                    </div>
+                    <label for="certificado-digital" class="form-radio-label">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botón Enviar -->
+            <div class="button-container">
+              <button type="submit" class="mdc-button mdc-button--raised button-enviar">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">ENVIAR</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Dialog -->
+  <div class="mdc-dialog" id="data-dialog">
+    <div class="mdc-dialog__container">
+      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true">
+        <h2 class="mdc-dialog__title">Datos del formulario</h2>
+        <div class="mdc-dialog__content" id="dialog-content">
+          <!-- El contenido se genera dinámicamente -->
+        </div>
+        <div class="mdc-dialog__actions">
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="cancel">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Cancelar</span>
+          </button>
+          <button type="button" class="mdc-button mdc-button--raised mdc-dialog__button button-confirmar" data-mdc-dialog-action="confirm">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Confirmar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+  </div>  
+</body>
+</html>
