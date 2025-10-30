@@ -1,12 +1,7 @@
 
 const API_BASE_URL = 'http://54.183.76.110:7171'; //TODO: traer la API_BASE_URL desde una variable de entorno
 
-/**
- * Controlador para obtener los datos de una empresa por su ID
- * @param {Object} req - Request de express
- * @param {Object} res - Response de express
- * @returns 
- */
+// Para obtener los datos de una empresa por su ID
 export const getCompanyById = async (req, res) => {
   try {
     const companyId = parseInt(req.params.id);
@@ -46,12 +41,7 @@ export const getCompanyById = async (req, res) => {
 // Por qué uso try/catch? Para manejar errores que puedan ocurrir durante la petición a la API externa.
 // Cómo obtengo el ID de la compañía? Uso req.params.id porque el ID viene en la URL como un parámetro de ruta.
 
-/**
- * Controlador para actualizar los datos de una empresa por su ID
- * @param {Object} req - Request de express (contiene el ID y los datos a actualizar)
- * @param {Object} res - Response de express
- * @returns 
- */
+// Para actualizar los datos de una empresa por su ID 
 export const updateCompanyById = async (req, res) => {
   try {
     const companyId = parseInt(req.params.id);
@@ -67,9 +57,9 @@ export const updateCompanyById = async (req, res) => {
     const response = await fetch(`${API_BASE_URL}/v1/companies/${companyId}.json`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json' // Básicamente el cliente le dice al servidor que le está enviando JSON en el body
       },
-      body: JSON.stringify(newCompanyData)
+      body: JSON.stringify(newCompanyData) // Uso stringify porque el body solo acepta string no objetos.
     });
 
     // if (!response.ok) {
