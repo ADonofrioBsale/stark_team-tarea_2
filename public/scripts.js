@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Si es 'cancel', no hace nada (solamente cierra el dialog)
   });
   
+  // Traigo los datos de la empresa
   cargarDatosEmpresa();
 
   // Ahora quiero capturar el valor de cada input que llene el usuario y cargarlo en el objeto formData
@@ -33,8 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Esta función se hizo para permitirle al usuario navegar entre secciones desde la sidebar
+  // Esta función se hizo para 
   configurarNavegacionSidebar();
+
+  // Esta función es para observar las secciones y cambiar el link activo en la sidebar según la sección visible
+  configurarObservadorSecciones();
   
   // Manejar click en botones ENVIAR
   const buttons = document.querySelectorAll('.button-enviar');
@@ -42,15 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
     button.addEventListener('click', (e) => {
       e.preventDefault(); // Para evitar el comportamiento por defecto del submit (recargar la página)
       
-      // Dependiendo de cual sea la sección activa, se validan los campos correspondientes
-      const seccionActiva = document.querySelector('.form-section.active');
-      if (seccionActiva.id == 'section-datos-empresa') { 
+      const seccionActiva = obtenerSeccionVisible();
+
+      if (seccionActiva && seccionActiva.id == 'section-datos-empresa') { 
         if (!validarCamposObligatorios()) {
           return;
         }
       }
       
-      if (seccionActiva.id == 'section-representante-legal') {
+      if (seccionActiva && seccionActiva.id == 'section-representante-legal') {
         if (!validarEmail()) {
           return;
         }
@@ -61,26 +65,35 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
 function configurarNavegacionSidebar() {
   const navLinks = document.querySelectorAll('.nav-link');
+  const contenedor = document.querySelector('.form-container'); 
+
+  const seccionesDisponibles = {
+    'datos-empresa': 'section-datos-empresa',
+    'representante-legal': 'section-representante-legal'
+  };
   
-  // Para este ejercicio, solo voy a permitir la navegación en las 2 primeras secciones (índices 0 y 1) porque no existen otros formularios
-  // NOTA: otra opción hubiera sido permitir la navegación en todas las secciones, pero mostrar un "empty state" para las secciones que no tienen formularios
-  const seccionesPermitidas = [
-    'section-datos-empresa',
-    'section-representante-legal'
-  ];
-  
-  navLinks.forEach((link, index) => {
+  navLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault(); // Para evitar que los link recarguen la página
       
       // Identifico a qué sección quiere navegar el usuario
       const seccionDestino = link.getAttribute('data-section');
-      const idSeccion = `section-${seccionDestino}`;
+      const idSeccion = seccionesDisponibles[seccionDestino];
       
-      if (seccionesPermitidas.includes(idSeccion)) {
-        cambiarSeccion(index);
+      if (idSeccion) {
+        const seccion = document.getElementById(idSeccion);
+
+        if (seccion && contenedor) {
+          const offsetTop = seccion.offsetTop - contenedor.offsetTop;
+          
+          contenedor.scrollTo({
+            behavior: 'smooth',
+            top: offsetTop
+          });
+        }
       } else {
         alert('Esta sección aún no está disponible');
       }
@@ -88,18 +101,59 @@ function configurarNavegacionSidebar() {
   });
 }
 
-// Para poder mostrar los diferentes formularios
-function cambiarSeccion(indice) {
-  const sections = document.querySelectorAll('.form-section');
+// Configuro el Intersection Observer para que detecte automáticamente qué sección está visible y active su nav-link
+function configurarObservadorSecciones() {
+  const secciones = document.querySelectorAll('.form-section');
   const navLinks = document.querySelectorAll('.nav-link');
+  const contenedor = document.querySelector('.form-container');
   
-  // Limpio el estado "active" de las secciones y likn para que no existan múltiples secciones activas
-  sections.forEach(section => section.classList.remove('active'));
-  navLinks.forEach(link => link.classList.remove('active'));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      // "entries" contiene información sobre cada elemento observado (en este caso las secciones)
+      // Es un array de objetos que tiene información sobre cada elemento observado (ej: isIntersecting para ver si está visible)
+      entries.forEach(entry => {
+        console.log(entry);
+
+        if (entry.isIntersecting) {
+          
+          const seccionId = entry.target.id; // target devuelve el elemento HTML. Yo me quedo con el id directamente: 'section-datos-empresa'
+          const seccionNombre = seccionId.replace('section-', ''); // Le quito "section-" porque los nav-links usan solamente el nombre (ej: 'datos-empresa')
+          
+          // Activar el nav-link correspondiente
+          navLinks.forEach(link => {
+            const linkSeccion = link.getAttribute('data-section');
+            
+            if (linkSeccion == seccionNombre) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        }
+      });
+    },
+    {
+      root: contenedor, // Para observar dentro del contenedor (por defecto es el viewport, pero yo quiero que sea el contenedor con scroll)
+      threshold: 0.5, // La sección se considera visible a partir del 50% de visibilidad del elemento
+    }
+  );
   
-  // Activo la sección y el link correspondiente
-  sections[indice].classList.add('active');
-  navLinks[indice].classList.add('active');
+  // Observar todas las secciones
+  secciones.forEach(seccion => {
+    observer.observe(seccion);
+  });
+}
+
+// Función para obtener la sección actualmente visible
+function obtenerSeccionVisible() {
+  const navLinkActivo = document.querySelector('.nav-link.active');
+  
+  if (navLinkActivo) {
+    const seccionNombre = navLinkActivo.getAttribute('data-section');
+    return document.getElementById(`section-${seccionNombre}`);
+  }
+  
+  return null;
 }
 
 function validarCamposObligatorios() {
@@ -152,11 +206,11 @@ function mostrarDialog() {
   };
   
   // Solamente muestro los campos de la sección que se encuentra activa
-  const seccionActiva = document.querySelector('.form-section.active');
+  const seccionActiva = obtenerSeccionVisible();
   let camposAMostrar = [];
   
   // Defino que campos corresponden a la sección activa
-  if (seccionActiva.id == 'section-datos-empresa') {
+  if (seccionActiva && seccionActiva.id == 'section-datos-empresa') {
     camposAMostrar = [
       'rut-empresa',
       'razon-social',
@@ -164,7 +218,7 @@ function mostrarDialog() {
       'comuna',
       'actividad-economica'
     ];
-  } else if (seccionActiva.id == 'section-representante-legal') {
+  } else if (seccionActiva && seccionActiva.id == 'section-representante-legal') {
     camposAMostrar = [
       'rut-representante',
       'nombre-representante',
@@ -187,21 +241,22 @@ function mostrarDialog() {
 }
 
 function pasarASiguienteSeccion() {
-  const sections = document.querySelectorAll('.form-section');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const seccionActual = obtenerSeccionVisible();
+  const contenedor = document.querySelector('.form-container');
+
+  if (!seccionActual || !contenedor) {
+    return;
+  }
   
-  let indexActual = -1; // Porque la siguiente sería la 0 (la primera)
-  sections.forEach((section, index) => {
-    if (section.classList.contains('active')) {
-      indexActual = index;
-    }
-  });
+  const siguienteSeccion = seccionActual.nextElementSibling;
   
-  const siguienteIndex = indexActual + 1;
-  
-  // Se avanza solamente si la siguiente sección existe
-  if (siguienteIndex < sections.length) {
-    cambiarSeccion(siguienteIndex);
+  if (siguienteSeccion && siguienteSeccion.classList.contains('form-section')) {
+    const offsetTop = siguienteSeccion.offsetTop - contenedor.offsetTop;
+
+    contenedor.scrollTo({
+      behavior: 'smooth',
+      top: offsetTop
+    });
   }
 }
 
@@ -232,7 +287,7 @@ async function cargarDatosEmpresa() {
     const response = await fetch(`/companies/api/${companyId}`);
 
     const apiResponse = await response.json();
-    const data = apiResponse.data;
+    const { data } = apiResponse; // equivalente a 'const data = apiResponse.data;'
 
     if (!response.ok) {
       console.error('Error al cargar los datos de la empresa:', data.errors);
@@ -281,7 +336,7 @@ async function cargarDatosEmpresa() {
       formData['email-representante'] = data.legalAgentEmail;
     }
 
-    if (data.cpnDteActive != undefined) {
+    if (data.cpnDteActive) {
       const tieneCertificado = data.cpnDteActive == 1 ? 'si' : 'no';
       // document.querySelector(`input[name="certificado"][value="${tieneCertificado}"]`).checked = true;
       // formData['certificado-digital'] = tieneCertificado ? 'Sí' : 'No';
@@ -348,7 +403,7 @@ async function actualizarDatosEmpresa() {
     }
     
     if (formData['certificado-digital']) {
-      nuevaData.cpnDteActive = formData['certificado-digital'] === 'Sí' ? 1 : 0;
+      nuevaData.cpnDteActive = formData['certificado-digital'] == 'Sí' ? 1 : 0;
     }
 
     console.log('Datos a enviar:', nuevaData);
